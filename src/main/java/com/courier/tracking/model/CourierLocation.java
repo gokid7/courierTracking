@@ -15,4 +15,5 @@ public class CourierLocation {
     private LocalDateTime timestamp;
     private double latitude;
     private double longitude;
+    private Store enteredStoreInfo;
 }

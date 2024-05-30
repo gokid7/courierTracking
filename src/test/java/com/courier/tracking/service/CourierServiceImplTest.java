@@ -26,10 +26,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class CourierServiceTest {
+public class CourierServiceImplTest {
 
     @InjectMocks
-    private CourierService courierService;
+    private CourierServiceImpl courierServiceImpl;
     @Mock
     private CourierRepository courierRepository;
     @Mock
@@ -51,7 +51,7 @@ public class CourierServiceTest {
 
         when(courierRepository.save(any(Courier.class))).thenReturn(courier);
 
-        Courier createdCourier = courierService.createCourier(courier);
+        Courier createdCourier = courierServiceImpl.createCourier(courier);
 
         assertNotNull(createdCourier);
         assertEquals("Test Courier", createdCourier.getName());
@@ -70,7 +70,7 @@ public class CourierServiceTest {
         when(courierRepository.findById("123")).thenReturn(Optional.of(existingCourier));
         when(courierRepository.save(any(Courier.class))).thenReturn(existingCourier);
 
-        Courier updatedCourier = courierService.updateCourier("123", updatedDetails);
+        Courier updatedCourier = courierServiceImpl.updateCourier("123", updatedDetails);
 
         assertNotNull(updatedCourier);
         assertEquals("Test Courier New Name", updatedCourier.getName());
@@ -84,7 +84,7 @@ public class CourierServiceTest {
         when(courierRepository.findById("123")).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> {
-            courierService.updateCourier("123", updatedDetails);
+            courierServiceImpl.updateCourier("123", updatedDetails);
         });
     }
 
@@ -107,7 +107,7 @@ public class CourierServiceTest {
 
         when(storeLoaderUtil.getStores()).thenReturn(stores);
 
-        courierService.logLocation(location);
+        courierServiceImpl.logLocation(location);
 
         verify(locationRepository, times(1)).save(location);
         //verify(storeObserver, times(1)).notifyStoreEntry(any(Courier.class), any(Store.class));
@@ -121,7 +121,7 @@ public class CourierServiceTest {
 
         when(courierRepository.findById("123")).thenReturn(Optional.of(courier));
 
-        Double distance = courierService.getTotalTravelDistance("123");
+        Double distance = courierServiceImpl.getTotalTravelDistance("123");
 
         assertNotNull(distance);
         assertEquals(100.0, distance);
@@ -131,7 +131,7 @@ public class CourierServiceTest {
     void testGetTotalTravelDistanceCourierNotFound() {
         when(courierRepository.findById("123")).thenReturn(Optional.empty());
 
-        Double distance = courierService.getTotalTravelDistance("123");
+        Double distance = courierServiceImpl.getTotalTravelDistance("123");
 
         assertNotNull(distance);
         assertEquals(0.0, distance);

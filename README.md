@@ -78,7 +78,6 @@ This is a RESTful web application built with Java 17 that tracks the courierLoca
 
 ### Builder Pattern
 - Used in `ResponseUtil` to builder design pattern.
-  
 
 ### Observer Pattern
 - Implemented implicitly by the logging mechanism where the `StoreObserver` acts as an observer to log entries when couriers courierLocations are updated.
