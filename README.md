@@ -12,8 +12,19 @@ This is a RESTful web application built with Java 17 that tracks the courierLoca
 - Java 17
 - Maven
 - MongoDB
+- Docker
+- Docker Compose (optional)
 
-## Running the Application
+## Build on Docker commands(on Mac terminal)
+- Clone the repository:
+    ```sh
+    git clone https://github.com/gokid7/courier-tracking.git
+    cd courier-tracking
+    ```
+- sudo docker build -t tracking .
+- sudo docker run -p 8080:8080 --name tracking-container tracking
+
+## Running the Application on Local
 
 1. Clone the repository:
     ```sh
@@ -34,6 +45,11 @@ This is a RESTful web application built with Java 17 that tracks the courierLoca
 4. The application will start on `http://localhost:8080`.
 
 ## API Endpoints
+
+- POST /api/couriers/location: Kurye konumunu loglamak için.
+- GET /api/couriers/distance/{courierId}: Bir kuryenin toplam seyahat mesafesini sorgulamak için.
+- POST /api/couriers/create: Yeni bir kurye oluşturmak için.
+- PUT /api/couriers/{id}: Var olan bir kuryeyi güncellemek için.
 
 ### Create Courier
 - **URL:** `/api/couriers/create`
