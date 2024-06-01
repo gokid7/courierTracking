@@ -13,4 +13,5 @@ public class Response {
     private String errorDescription;
     private String status;
     private boolean screenShow;
+    private String requestPath;
 }

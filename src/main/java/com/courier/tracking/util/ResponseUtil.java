@@ -14,11 +14,16 @@ public class ResponseUtil {
                 .errorCode(Constants.ResponseStatus.SUCCESS_ERROR_CODE)
                 .errorDescription(Constants.ResponseStatus.SUCCESS_ERROR_DESCRIPTION)
                 .status(Constants.ResponseStatus.SUCCESS_STATUS)
+                .requestPath("")
                 .build();
     }
 
-    public static Response createErrorResponse(RuntimeException e){
-        //TODO: createErrorResponse yapılacak.
-        return null;
+    public static Response createErrorResponse(RuntimeException e,String requestPath){
+        return Response.builder()
+                .errorCode(Constants.ResponseStatus.FAIL_ERROR_CODE)
+                .errorDescription(e.getMessage())
+                .status(Constants.ResponseStatus.FAIL_STATUS)
+                .requestPath(requestPath)
+                .build();
     }
 }

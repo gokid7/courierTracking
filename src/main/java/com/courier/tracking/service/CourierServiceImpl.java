@@ -1,6 +1,7 @@
 package com.courier.tracking.service;
 
 import com.courier.tracking.constant.Constants;
+import com.courier.tracking.exception.GeneralAppException;
 import com.courier.tracking.exception.ResourceNotFoundException;
 import com.courier.tracking.model.Courier;
 import com.courier.tracking.model.CourierLocation;
@@ -39,16 +40,23 @@ public class CourierServiceImpl implements CourierService{
 
     @Override
     public String logLocation(CourierLocation courierLocation) {
-        courierLocation.setTimestamp(LocalDateTime.now());
-        locationRepository.save(courierLocation);
-        String logLocationInfo = checkStoreEntry(courierLocation);
-        updateTotalDistance(courierLocation.getCourierId());
-        return logLocationInfo;
+        try {
+            courierLocation.setTimestamp(LocalDateTime.now());
+            locationRepository.save(courierLocation);
+            String logLocationInfo = checkStoreEntry(courierLocation);
+            updateTotalDistance(courierLocation.getCourierId());
+            return logLocationInfo;
+        }catch (Exception e){
+            throw new GeneralAppException(Constants.ExceptionConstants.SYSTEM_ERROR);
+        }
     }
 
     @Override
     public Double getTotalTravelDistance(String courierId) {
         Optional<Courier> courier = courierRepository.findById(courierId);
+        if(!courier.isPresent()){
+            throw new ResourceNotFoundException(Constants.ExceptionConstants.COURIER_NOT_FOUND + courierId);
+        }
         return courier.map(Courier::getTotalDistance).orElse(0.0);
     }
 
